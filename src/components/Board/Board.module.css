@@ -1,0 +1,20 @@
+.wrapper {
+  max-width: 600px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  border: 1px solid black;
+  background-color: black;
+}
+
+.square {
+  aspect-ratio: 1/1;
+  border: 1px rgb(21, 21, 21) solid;
+}
+
+.colored {
+  background-color: hsl(var(--color) 70% 50%);
+  border: 5px solid hsl(var(--color) 70% 70%);
+  border-bottom-color: hsl(var(--color) 70% 40%);
+  border-right-color: hsl(var(--color) 70% 40%);
+}
