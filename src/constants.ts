@@ -1,4 +1,4 @@
-import { Shape, createShape } from "./shapes";
+import { Shape } from "./shapes";
 
 export const BOARD_HEIGHT = 10;
 export const BOARD_WIDTH = 10;
@@ -14,76 +14,74 @@ const COLORS = {
 };
 
 export const SHAPES: Array<Shape> = [
-  createShape({
+  {
     color: COLORS.yellow,
     squares: [
-      { baseX: -1, baseY: -1, x: 0, y: 4 },
-      { baseX: -1, baseY: 0, x: 0, y: 5 },
-      { baseX: 0, baseY: -1, x: 1, y: 4 },
-      { baseX: 0, baseY: 0, x: 1, y: 5 },
+      { x: 0, y: 4 },
+      { x: 0, y: 5 },
+      { x: 1, y: 4 },
+      { x: 1, y: 5 },
     ],
-    isAxisInMiddleBlock: false,
-  }),
-
-  createShape({
+    origin: { x: 0.5, y: 4.5 },
+  },
+  {
     color: COLORS.lightblue,
     squares: [
-      { baseX: -1, baseY: -2, x: 0, y: 3 },
-      { baseX: -1, baseY: -1, x: 0, y: 4 },
-      { baseX: -1, baseY: 0, x: 0, y: 5 },
-      { baseX: -1, baseY: 1, x: 0, y: 6 },
+      { x: 0, y: 3 },
+      { x: 0, y: 4 },
+      { x: 0, y: 5 },
+      { x: 0, y: 6 },
     ],
-    isAxisInMiddleBlock: false,
-  }),
-
-  createShape({
+    origin: { x: 0.5, y: 4.5 },
+  },
+  {
     color: COLORS.purple,
     squares: [
-      { baseX: -1, baseY: 0, x: 0, y: 5 },
-      { baseX: 0, baseY: -1, x: 1, y: 4 },
-      { baseX: 0, baseY: 0, x: 1, y: 5 },
-      { baseX: 0, baseY: 1, x: 1, y: 6 },
+      { x: 0, y: 4 },
+      { x: 1, y: 3 },
+      { x: 1, y: 4 },
+      { x: 1, y: 5 },
     ],
-    isAxisInMiddleBlock: true,
-  }),
-  createShape({
+    origin: { x: 1, y: 4 },
+  },
+  {
     color: COLORS.green,
     squares: [
-      { baseX: -1, baseY: 0, x: 0, y: 4 },
-      { baseX: -1, baseY: 1, x: 0, y: 5 },
-      { baseX: 0, baseY: -1, x: 1, y: 3 },
-      { baseX: 0, baseY: 0, x: 1, y: 4 },
+      { x: 0, y: 4 },
+      { x: 0, y: 5 },
+      { x: 1, y: 3 },
+      { x: 1, y: 4 },
     ],
-    isAxisInMiddleBlock: true,
-  }),
-  createShape({
+    origin: { x: 1, y: 4 },
+  },
+  {
     color: COLORS.red,
     squares: [
-      { baseX: -1, baseY: -1, x: 0, y: 3 },
-      { baseX: -1, baseY: 0, x: 0, y: 4 },
-      { baseX: 0, baseY: 0, x: 1, y: 4 },
-      { baseX: 0, baseY: 1, x: 1, y: 5 },
+      { x: 0, y: 3 },
+      { x: 0, y: 4 },
+      { x: 1, y: 4 },
+      { x: 1, y: 5 },
     ],
-    isAxisInMiddleBlock: true,
-  }),
-  createShape({
+    origin: { x: 1, y: 4 },
+  },
+  {
     color: COLORS.blue,
     squares: [
-      { baseX: -1, baseY: -1, x: 0, y: 3 },
-      { baseX: 0, baseY: -1, x: 1, y: 3 },
-      { baseX: 0, baseY: 0, x: 1, y: 4 },
-      { baseX: 0, baseY: 1, x: 1, y: 5 },
+      { x: 0, y: 3 },
+      { x: 1, y: 3 },
+      { x: 1, y: 4 },
+      { x: 1, y: 5 },
     ],
-    isAxisInMiddleBlock: true,
-  }),
-  createShape({
+    origin: { x: 1, y: 4 },
+  },
+  {
     color: COLORS.orange,
     squares: [
-      { baseX: -1, baseY: 1, x: 0, y: 5 },
-      { baseX: 0, baseY: -1, x: 1, y: 3 },
-      { baseX: 0, baseY: 0, x: 1, y: 4 },
-      { baseX: 0, baseY: 1, x: 1, y: 5 },
+      { x: 0, y: 5 },
+      { x: 1, y: 3 },
+      { x: 1, y: 4 },
+      { x: 1, y: 5 },
     ],
-    isAxisInMiddleBlock: true,
-  }),
+    origin: { x: 1, y: 4 },
+  },
 ];

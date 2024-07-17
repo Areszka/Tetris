@@ -14,8 +14,8 @@ function Board({ board, currentShape }: { board: BoardType; currentShape: Shape 
         return rows.map((space, y) => {
           let squareColor = space.color;
 
-          for (const shapeElement of currentShape.squares) {
-            if (shapeElement.x === x && shapeElement.y === y) {
+          for (const square of currentShape.squares) {
+            if (square.x === x && square.y === y) {
               squareColor = currentShape.color;
             }
           }

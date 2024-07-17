@@ -1,6 +1,13 @@
 import React from "react";
 import { BOARD_HEIGHT, BOARD_WIDTH } from "../../constants";
-import { Shape, getRandomShape } from "../../shapes";
+import {
+  Shape,
+  getRandomShape,
+  moveShapeDown,
+  moveShapeLeft,
+  moveShapeRight,
+  rotateShape,
+} from "../../shapes";
 import useKeydown from "../../hooks/use-keydown";
 
 type BoardSquare = { isOccupied: boolean; color?: number };
@@ -28,7 +35,7 @@ export default function useBoard() {
 
   useKeydown("ArrowRight", () => handleArrowKey("right"));
   useKeydown("ArrowLeft", () => handleArrowKey("left"));
-  useKeydown("ArrowUp", () => handleArrowKey("up"));
+  useKeydown("ArrowUp", () => handleArrowKeyUp());
 
   React.useEffect(() => {
     if (gameStatus === "running") {
@@ -96,17 +103,17 @@ export default function useBoard() {
   }, [board]);
 
   function moveCurrentShape(direction: ArrowKey) {
-    const nextShape: Shape = { ...currentShape };
+    let nextShape: Shape = { ...currentShape };
 
     switch (direction) {
       case "down":
-        nextShape.moveDown();
+        nextShape = moveShapeDown(nextShape);
         break;
       case "left":
-        nextShape.moveLeft();
+        nextShape = moveShapeLeft(nextShape);
         break;
       case "right": {
-        nextShape.moveRight();
+        nextShape = moveShapeRight(nextShape);
         break;
       }
       default: {
@@ -116,19 +123,6 @@ export default function useBoard() {
 
     if (!checkIfShapeOverlapsWithPreviousShapes(board, nextShape)) {
       setCurrentShape(nextShape);
-    }
-  }
-
-  function rotateShape() {
-    const rotatedShape: Shape = { ...currentShape }.rotate();
-
-    const rotatedShapeOverlapsWithBoard = checkIfShapeOverlapsWithPreviousShapes(
-      board,
-      rotatedShape
-    );
-
-    if (!rotatedShapeOverlapsWithBoard) {
-      setCurrentShape(rotatedShape);
     }
   }
 
@@ -148,11 +142,23 @@ export default function useBoard() {
       return;
     }
     if (key === "up") {
-      rotateShape();
+      handleArrowKeyUp();
     } else {
       moveCurrentShape(key);
     }
   };
+
+  function handleArrowKeyUp() {
+    const rotatedShape: Shape = rotateShape(currentShape);
+    const rotatedShapeOverlapsWithBoard = checkIfShapeOverlapsWithPreviousShapes(
+      board,
+      rotatedShape
+    );
+
+    if (!rotatedShapeOverlapsWithBoard) {
+      setCurrentShape(rotatedShape);
+    }
+  }
 
   function toggleGameStatus() {
     if (gameStatus === "running") {
@@ -188,9 +194,8 @@ function checkIfShapeOverlapsWithPreviousShapes(board: Board, shape: Shape) {
 }
 
 function checkIfShapeCanMoveDown(board: Board, shape: Shape) {
-  const nextShape: Shape = { ...shape };
+  const nextShape: Shape = moveShapeDown(shape);
 
-  nextShape.moveDown();
   return !checkIfShapeOverlapsWithPreviousShapes(board, nextShape);
 }
 
