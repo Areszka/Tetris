@@ -68,69 +68,42 @@ function rotateShape(squares: Array<Square>, isAxisInMiddleBlock: boolean) {
 function rotateRelativelyToCenterSquare(square: Square) {
   const baseX = square.baseX;
   const baseY = square.baseY;
-  let nextSquare = { ...square };
 
-  if (baseX === -1 && baseY === -1) {
-    nextSquare = getRotatedSquare(square, 0, 2);
-  } else if (baseX === -1 && baseY === 0) {
-    nextSquare = getRotatedSquare(square, 1, 1);
-  } else if (baseX === -1 && baseY === 1) {
-    nextSquare = getRotatedSquare(square, 2, 0);
-  } else if (baseX === 0 && baseY === -1) {
-    nextSquare = getRotatedSquare(square, -1, 1);
-  } else if (baseX === 0 && baseY === 1) {
-    nextSquare = getRotatedSquare(square, 1, -1);
-  } else if (baseX === 1 && baseY === -1) {
-    nextSquare = getRotatedSquare(square, -2, 0);
-  } else if (baseX === 1 && baseY === 0) {
-    nextSquare = getRotatedSquare(square, -1, -1);
-  } else if (baseX === 1 && baseY === 1) {
-    nextSquare = getRotatedSquare(square, 0, -2);
-  }
+  if (baseX === 0 && baseY === 0) return square;
+  if (baseX === -1 && baseY === -1) return getRotatedSquare(square, 0, 2);
+  if (baseX === -1 && baseY === 0) return getRotatedSquare(square, 1, 1);
+  if (baseX === -1 && baseY === 1) return getRotatedSquare(square, 2, 0);
+  if (baseX === 0 && baseY === -1) return getRotatedSquare(square, -1, 1);
+  if (baseX === 0 && baseY === 1) return getRotatedSquare(square, 1, -1);
+  if (baseX === 1 && baseY === -1) return getRotatedSquare(square, -2, 0);
+  if (baseX === 1 && baseY === 0) return getRotatedSquare(square, -1, -1);
+  if (baseX === 1 && baseY === 1) return getRotatedSquare(square, 0, -2);
 
-  return nextSquare;
+  throw Error(`Cannot rotate square with baseX: ${baseX} and baseY: ${baseY}`);
 }
 
 function rotateSquare(square: Square) {
   const baseX = square.baseX;
   const baseY = square.baseY;
-  let nextSquare = { ...square };
 
-  if (baseX === -2 && baseY === -2) {
-    nextSquare = getRotatedSquare(square, 0, 3);
-  } else if (baseX === -2 && baseY === -1) {
-    nextSquare = getRotatedSquare(square, 1, 2);
-  } else if (baseX === -1 && baseY === -2) {
-    nextSquare = getRotatedSquare(square, -1, 2);
-  } else if (baseX === -1 && baseY === -1) {
-    nextSquare = getRotatedSquare(square, 0, 1);
-  } else if (baseX === -2 && baseY === 0) {
-    nextSquare = getRotatedSquare(square, 2, 1);
-  } else if (baseX === -2 && baseY === 1) {
-    nextSquare = getRotatedSquare(square, 3, 0);
-  } else if (baseX === -1 && baseY === 0) {
-    nextSquare = getRotatedSquare(square, 1, 0);
-  } else if (baseX === -1 && baseY === 1) {
-    nextSquare = getRotatedSquare(square, 2, -1);
-  } else if (baseX === 0 && baseY === 0) {
-    nextSquare = getRotatedSquare(square, 0, -1);
-  } else if (baseX === 0 && baseY === 1) {
-    nextSquare = getRotatedSquare(square, 1, -2);
-  } else if (baseX === 1 && baseY === 0) {
-    nextSquare = getRotatedSquare(square, -1, -2);
-  } else if (baseX === 1 && baseY === 1) {
-    nextSquare = getRotatedSquare(square, 0, -3);
-  } else if (baseX === 0 && baseY === -2) {
-    nextSquare = getRotatedSquare(square, -2, 1);
-  } else if (baseX === 0 && baseY === -1) {
-    nextSquare = getRotatedSquare(square, -1, 0);
-  } else if (baseX === 1 && baseY === -2) {
-    nextSquare = getRotatedSquare(square, -3, 0);
-  } else if (baseX === 1 && baseY === -1) {
-    nextSquare = getRotatedSquare(square, -2, -1);
-  }
+  if (baseX === -2 && baseY === -2) return getRotatedSquare(square, 0, 3);
+  if (baseX === -2 && baseY === -1) return getRotatedSquare(square, 1, 2);
+  if (baseX === -1 && baseY === -2) return getRotatedSquare(square, -1, 2);
+  if (baseX === -1 && baseY === -1) return getRotatedSquare(square, 0, 1);
+  if (baseX === -2 && baseY === 0) return getRotatedSquare(square, 2, 1);
+  if (baseX === -2 && baseY === 1) return getRotatedSquare(square, 3, 0);
+  if (baseX === -1 && baseY === 0) return getRotatedSquare(square, 1, 0);
+  if (baseX === -1 && baseY === 1) return getRotatedSquare(square, 2, -1);
+  if (baseX === 0 && baseY === 0) return getRotatedSquare(square, 0, -1);
+  if (baseX === 0 && baseY === 1) return getRotatedSquare(square, 1, -2);
+  if (baseX === 1 && baseY === 0) return getRotatedSquare(square, -1, -2);
+  if (baseX === 1 && baseY === 1) return getRotatedSquare(square, 0, -3);
+  if (baseX === 0 && baseY === -2) return getRotatedSquare(square, -2, 1);
+  if (baseX === 0 && baseY === -1) return getRotatedSquare(square, -1, 0);
+  if (baseX === 1 && baseY === -2) return getRotatedSquare(square, -3, 0);
+  if (baseX === 1 && baseY === -1) return getRotatedSquare(square, -2, -1);
 
-  return nextSquare;
+  throw Error(`Cannot rotate square with baseX: ${baseX} and baseY: ${baseY}`);
 }
 
 function getRotatedSquare(square: Square, shiftX: number, shiftY: number): Square {

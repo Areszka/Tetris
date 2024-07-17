@@ -1,2 +1,9 @@
 :root {
+  --h: 215;
+  --squareColor: hsl(var(--h), 15%, 25%);
+  --bgColor: hsl(var(--h), 19%, 14%);
+  --boardColor: hsl(var(--h), 17%, 17%);
+
+  background-color: var(--bgColor);
+  color: white;
 }

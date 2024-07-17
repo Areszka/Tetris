@@ -3,18 +3,22 @@
   margin: auto;
   display: grid;
   grid-template-columns: repeat(var(--columns), 1fr);
-  border: 1px solid black;
-  background-color: black;
+  gap: 4px;
+  background-color: var(--boardColor);
+  padding: 12px;
 }
 
 .square {
   aspect-ratio: 1/1;
-  border: 1px rgb(21, 21, 21) solid;
+  background-color: var(--squareColor);
+  border-radius: 8px;
 }
 
 .colored {
   background-color: hsl(var(--color) 70% 50%);
-  border: 5px solid hsl(var(--color) 70% 70%);
-  border-bottom-color: hsl(var(--color) 70% 40%);
+
+  border: 5px solid hsl(var(--color) 70% 60%);
+  border-bottom-color: hsl(var(--color) 70% 35%);
+  border-top-color: hsl(var(--color) 70% 70%);
   border-right-color: hsl(var(--color) 70% 40%);
 }

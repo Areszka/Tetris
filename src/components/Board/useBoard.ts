@@ -3,11 +3,11 @@ import { BOARD_HEIGHT, BOARD_WIDTH } from "../../constants";
 import { Shape, getRandomShape } from "../../shapes";
 import useKeydown from "../../hooks/use-keydown";
 
-export type Board = Array<Array<BoardSquare>>;
-
 type BoardSquare = { isOccupied: boolean; color?: number };
 
-export type Direction = "left" | "right" | "down";
+export type Board = Array<Array<BoardSquare>>;
+
+export type ArrowKey = "left" | "right" | "down" | "up";
 
 export type GameStatus = "running" | "lost" | "paused";
 
@@ -24,6 +24,11 @@ export default function useBoard() {
   const [currentShape, setCurrentShape] = React.useState<Shape>(() => getRandomShape());
   const [gameStatus, setGameStatus] = React.useState<GameStatus>("running");
   const [timer, setTimer] = React.useState<number>(0);
+  const [score, setScore] = React.useState<number>(0);
+
+  useKeydown("ArrowRight", () => handleArrowKey("right"));
+  useKeydown("ArrowLeft", () => handleArrowKey("left"));
+  useKeydown("ArrowUp", () => handleArrowKey("up"));
 
   React.useEffect(() => {
     if (gameStatus === "running") {
@@ -36,44 +41,30 @@ export default function useBoard() {
   }, [gameStatus]);
 
   React.useEffect(() => {
-    if (gameStatus === "running") {
-      const blockCanGoDown = checkIfCurrentShapeCanMoveDown();
-
-      if (blockCanGoDown) {
-        moveCurrentShape("down");
-      } else {
-        addBlock();
-        const nextShape = getRandomShape();
-        const nextBlockOverlaps = checkIfBlockOverlaps({
-          currentShape: currentShape,
-          nextShape: nextShape,
-        });
-
-        if (nextBlockOverlaps) {
-          setGameStatus("lost");
-        } else {
-          setCurrentShape(nextShape);
-        }
-      }
-    }
+    handleShapeDrop();
   }, [timer]);
 
-  const handleArrowKey = (direction: Direction) => {
+  function handleShapeDrop() {
     if (gameStatus !== "running") {
       return;
     }
-    moveCurrentShape(direction);
-  };
 
-  useKeydown("ArrowRight", () => handleArrowKey("right"));
-  useKeydown("ArrowLeft", () => handleArrowKey("left"));
-  useKeydown("ArrowUp", () => {
-    if (gameStatus !== "running") {
-      return;
+    const blockCanGoDown = checkIfShapeCanMoveDown(board, currentShape);
+
+    if (blockCanGoDown) {
+      moveCurrentShape("down");
+    } else {
+      addBlock();
+      const nextShape = getRandomShape();
+      const nextShapeOverlapsWithCurrentShape = checkIfTwoShapesOverlaps(currentShape, nextShape);
+
+      if (nextShapeOverlapsWithCurrentShape) {
+        setGameStatus("lost");
+      } else {
+        setCurrentShape(nextShape);
+      }
     }
-    console.log("ONE");
-    rotateShape();
-  });
+  }
 
   React.useEffect(() => {
     const nextBoard: Board = JSON.parse(JSON.stringify(board));
@@ -99,11 +90,12 @@ export default function useBoard() {
     });
 
     if (indexesOfFullRows.length > 0) {
+      setScore((currentScore) => currentScore + indexesOfFullRows.length * 100);
       setBoard(nextBoard);
     }
   }, [board]);
 
-  function moveCurrentShape(direction: Direction) {
+  function moveCurrentShape(direction: ArrowKey) {
     const nextShape: Shape = { ...currentShape };
 
     switch (direction) {
@@ -116,6 +108,9 @@ export default function useBoard() {
       case "right": {
         nextShape.moveRight();
         break;
+      }
+      default: {
+        console.error(`Direction ${direction} is not supported`);
       }
     }
 
@@ -148,31 +143,39 @@ export default function useBoard() {
     });
   }
 
-  function checkIfCurrentShapeCanMoveDown() {
-    const nextShape: Shape = { ...currentShape };
+  const handleArrowKey = (key: ArrowKey) => {
+    if (gameStatus !== "running") {
+      return;
+    }
+    if (key === "up") {
+      rotateShape();
+    } else {
+      moveCurrentShape(key);
+    }
+  };
 
-    nextShape.moveDown();
-    return !checkIfShapeOverlapsWithPreviousShapes(board, nextShape);
+  function toggleGameStatus() {
+    if (gameStatus === "running") {
+      setGameStatus("paused");
+    } else {
+      setGameStatus("running");
+    }
   }
 
-  function checkIfBlockOverlaps({
-    nextShape,
-    currentShape,
-  }: {
-    nextShape: Shape;
-    currentShape: Shape;
-  }) {
-    const shapeOverlapsWithBoard = nextShape.squares.some(({ x, y }) => board[x][y].isOccupied);
-    const currentShapeOverlapsWithNextShape = nextShape.squares.some(({ x: nextX, y: nextY }) =>
-      currentShape.squares.some(({ x, y }) => x === nextX && y === nextY)
-    );
-    return shapeOverlapsWithBoard || currentShapeOverlapsWithNextShape;
+  function resetGame() {
+    setBoard(initialBoard);
+    setCurrentShape(() => getRandomShape());
+    setGameStatus("running");
+    setScore(0);
   }
 
   return {
     board,
     currentShape,
     gameStatus,
+    resetGame,
+    score,
+    toggleGameStatus,
   };
 }
 
@@ -182,4 +185,18 @@ function checkIfShapeOverlapsWithPreviousShapes(board: Board, shape: Shape) {
 
     return shapeIsBeyondBoard || board[x][y].isOccupied;
   });
+}
+
+function checkIfShapeCanMoveDown(board: Board, shape: Shape) {
+  const nextShape: Shape = { ...shape };
+
+  nextShape.moveDown();
+  return !checkIfShapeOverlapsWithPreviousShapes(board, nextShape);
+}
+
+function checkIfTwoShapesOverlaps(shapeOne: Shape, shapeTwo: Shape) {
+  const shapesOverlap = shapeOne.squares.some(({ x: nextX, y: nextY }) =>
+    shapeTwo.squares.some(({ x, y }) => x === nextX && y === nextY)
+  );
+  return shapesOverlap;
 }
