@@ -6,9 +6,24 @@
 }
 
 .button {
+  cursor: pointer;
   background-color: var(--squareColor);
   border: none;
   color: white;
   border-radius: 50%;
-  padding: 20px;
+  height: 64px;
+  aspect-ratio: 1 /1;
+}
+
+.button:hover {
+  animation: rotate 1.5s cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

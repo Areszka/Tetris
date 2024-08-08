@@ -67,6 +67,7 @@ export default function useBoard() {
 
       if (nextShapeOverlapsWithCurrentShape) {
         setGameStatus("lost");
+        alert("You lost!");
       } else {
         setCurrentShape(nextShape);
       }

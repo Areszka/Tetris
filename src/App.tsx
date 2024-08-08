@@ -10,8 +10,8 @@ function App() {
 
   return (
     <>
-      <Header gameStatus={gameStatus} score={score} />
-      <Board board={board} currentShape={currentShape} />
+      <Header score={score} />
+      <Board board={board} currentShape={currentShape} gameStatus={gameStatus} />
       <GameControls
         resetGame={resetGame}
         toggleGameStatus={toggleGameStatus}

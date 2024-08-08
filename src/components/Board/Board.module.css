@@ -6,12 +6,13 @@
   gap: 4px;
   background-color: var(--boardColor);
   padding: 12px;
+  position: relative;
 }
 
 .square {
   aspect-ratio: 1/1;
   background-color: var(--squareColor);
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .colored {
@@ -21,4 +22,14 @@
   border-bottom-color: hsl(var(--color) 70% 35%);
   border-top-color: hsl(var(--color) 70% 70%);
   border-right-color: hsl(var(--color) 70% 40%);
+}
+
+.overlay {
+  position: absolute;
+  background-color: var(--squareColor);
+  width: 100%;
+  height: 100%;
+  font-size: 64px;
+  display: grid;
+  place-items: center;
 }
